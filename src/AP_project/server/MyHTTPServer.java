@@ -7,6 +7,12 @@ import java.net.*;
 import java.util.concurrent.*;
 import java.util.*;
 
+/**
+ * MyHTTPServer is an implementation of an HTTP server that handles HTTP requests
+ * and manages multiple servlets for different HTTP commands and URIs.
+ * It extends Thread to run the server in a separate thread and implements
+ * the HTTPServer interface.
+ */
 public class MyHTTPServer extends Thread implements HTTPServer {
 
     private final int port;
@@ -16,6 +22,11 @@ public class MyHTTPServer extends Thread implements HTTPServer {
     private volatile boolean running = true;
     private ServerSocket serverSocket;
 
+    /**
+     * Constructs a MyHTTPServer instance with a specified port and number of threads.
+     * @param port The port on which the server will listen for incoming connections.
+     * @param nThreads The number of threads to use for handling client connections.
+     */
     public MyHTTPServer(int port, int nThreads) {
         this.port = port;
         this.nThreads = nThreads;

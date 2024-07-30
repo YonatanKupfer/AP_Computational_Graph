@@ -13,10 +13,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * The ConfLoader class is responsible for loading configuration files,
+ * processing them to generate graphs and tables, and sending appropriate
+ * responses to clients. It implements the Servlet interface for handling
+ * HTTP requests.
+ */
 public class ConfLoader implements Servlet {
     private final String baseDir;
+    /**
+     * A set that holds the names of loaded topics.
+     */
     public static Set<String> loadedTopics = new HashSet<>();
 
+    /**
+     * Constructs a ConfLoader instance with the specified base directory.
+     *
+     * @param baseDir The base directory where configuration files are located.
+     */
     public ConfLoader(String baseDir) {
         this.baseDir = baseDir;
         clearStateAndWriteEmptyHtmlFiles();

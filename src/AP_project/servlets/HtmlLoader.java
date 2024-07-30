@@ -7,9 +7,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * The HtmlLoader class implements the Servlet interface and is responsible
+ * for loading and serving HTML files from a specified folder.
+ * <p>
+ * It handles HTTP requests by reading files from the provided HTML folder
+ * and sending the appropriate content back to the client. It also determines
+ * the content type based on the file extension and handles 404 Not Found errors.
+ * </p>
+ */
 public class HtmlLoader implements Servlet {
     private final String htmlFolder;
 
+    /**
+     * Constructs an HtmlLoader with the specified folder for HTML files.
+     * @param htmlFolder The path to the folder containing HTML files.
+     */
     public HtmlLoader(String htmlFolder) {
         this.htmlFolder = htmlFolder;
     }

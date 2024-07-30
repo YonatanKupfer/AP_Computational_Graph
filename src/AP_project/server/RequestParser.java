@@ -89,6 +89,15 @@ public class RequestParser {
         private final Map<String, String> headers;
         private final byte[] content;
 
+        /**
+         * Constructs a RequestInfo object with the specified details.
+         * @param httpCommand The HTTP command (e.g., GET, POST).
+         * @param uri The URI of the request.
+         * @param uriSegments The segments of the URI path.
+         * @param parameters The request parameters.
+         * @param headers The request headers.
+         * @param content The request content.
+         */
         public RequestInfo(String httpCommand, String uri, String[] uriSegments, Map<String, String> parameters, Map<String, String> headers, byte[] content) {
             this.httpCommand = httpCommand;
             this.uri = uri;
@@ -98,26 +107,50 @@ public class RequestParser {
             this.content = content;
         }
 
+        /**
+         * Returns the HTTP command.
+         * @return The HTTP command.
+         */
         public String getHttpCommand() {
             return httpCommand;
         }
 
+        /**
+         * Returns the URI of the request.
+         * @return The URI.
+         */
         public String getUri() {
             return uri;
         }
 
+        /**
+         * Returns the segments of the URI path.
+         * @return The URI segments.
+         */
         public String[] getUriSegments() {
             return uriSegments;
         }
 
+        /**
+         * Returns the request parameters.
+         * @return The parameters as a map.
+         */
         public Map<String, String> getParameters() {
             return parameters;
         }
 
+        /**
+         * Returns the request headers.
+         * @return The headers as a map.
+         */
         public Map<String, String> getHeaders() {
             return headers;
         }
 
+        /**
+         * Returns the request content.
+         * @return The content as a byte array.
+         */
         public byte[] getContent() {
             return content;
         }

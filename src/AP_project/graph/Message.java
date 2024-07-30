@@ -9,9 +9,24 @@ import java.nio.charset.StandardCharsets;
  * the message was created.
  */
 public class Message {
+    /**
+     * The message content as a byte array.
+     */
     public final byte[] data;
+
+    /**
+     * The message content as text.
+     */
     public final String asText;
+
+    /**
+     * The message content as a double.
+     */
     public final double asDouble;
+
+    /**
+     * The date and time when the message was created.
+     */
     public final Date date;
 
     /**

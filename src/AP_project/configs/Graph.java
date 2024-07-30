@@ -7,11 +7,25 @@ import java.util.HashMap;
 
 /**
  * The Graph class represents a collection of nodes and their connections.
- * It extends ArrayList<Node> and provides methods to create the graph
+ * It extends {@code ArrayList<Node>} and provides methods to create the graph
  * from topics and check for cycles.
+ * * <p>
+ *  * This class uses the default constructor provided by {@code ArrayList<Node>}
+ *  * and adds functionality for managing nodes and their connections.
+ *  * </p>
  */
 public class Graph extends ArrayList<Node> {
     private final HashMap<String, Node> nodeMap = new HashMap<>();
+
+    /**
+     * Default constructor for the Graph class.
+     * <p>
+     * Initializes an empty graph using the default constructor of {@code ArrayList<Node>}.
+     * </p>
+     */
+    public Graph() {
+        super();
+    }
 
     /**
      * Checks if the graph contains any cycles.

@@ -8,6 +8,7 @@ import java.util.List;
  * It maintains a list of subscribers and publishers, and allows publishing messages to subscribers.
  */
 public class Topic {
+    /** The name of the topic. */
     public String name;
     private List<Agent> subs;
     private List<Agent> pubs;

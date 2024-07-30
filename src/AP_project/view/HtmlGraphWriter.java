@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The HtmlGraphWriter class provides methods to generate HTML content
+ * for visualizing graphs and displaying node values in an HTML table.
+ * <p>
+ * It includes methods for creating HTML for D3.js graph visualizations
+ * and for generating an HTML table displaying node values.
+ * </p>
+ */
 public class HtmlGraphWriter {
 
     /**

@@ -12,10 +12,25 @@ import java.util.List;
 /**
  * The GenericConfig class implements the Config interface and reads agent configurations from a file.
  * It creates and manages instances of Agent based on the configuration.
+ * * <p>
+ *  * This class provides functionality to read configuration from a file, create agents using reflection,
+ *  * and manage a list of agents. It also implements the Config interface, requiring methods for configuration
+ *  * creation, retrieval of configuration name and version, and cleanup.
+ *  * </p>
  */
 public class GenericConfig implements Config {
     private String conFile; // Configuration file path
     private final List<Agent> agents = new ArrayList<>(); // List to hold created agents
+
+    /**
+     * Default constructor for GenericConfig.
+     * <p>
+     * Initializes an instance of GenericConfig with no specific configuration file.
+     * </p>
+     */
+    public GenericConfig() {
+        // No specific initialization required for default constructor
+    }
 
     /**
      * Reads configuration from a file and creates agents based on the file content.

@@ -15,8 +15,13 @@ import java.util.*;
 
 import AP_project.view.HtmlGraphWriter;
 
+/**
+ * The TopicDisplayer class handles HTTP requests related to topics and updates the graph.
+ * It implements the Servlet interface.
+ */
 public class TopicDisplayer implements Servlet {
 
+    /** A map from topic names to the current message published on each topic. */
     public static Map<String, String> topicToCurrentMessage = new HashMap<>();
     private String configDescription;
 
