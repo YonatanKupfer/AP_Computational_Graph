@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+            width: 100%;
+        }
+        form {
+            margin-bottom: 20px;
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="file"], input[type="text"], input[type="submit"] {
+            margin-bottom: 10px;
+            background-color: #444;
+            color: #ecf0f1;
+            border: 1px solid #555;
+            padding: 10px;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            cursor: pointer;
+            background-color: #2980b9;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #3498db;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left-column">
+        <form id="uploadForm" enctype="multipart/form-data" action="http://localhost:8080/upload" method="post" target="graphFrame">
+            <label for="configFile">Choose File:</label>
+            <input type="file" id="configFile" name="configFile">
+            <input type="submit" value="Deploy">
+        </form>
+        <form id="topicForm" action="http://localhost:8080/publish" method="get" target="tableFrame">
+            <label for="topicName">Topic name:</label>
+            <input type="text" id="topicName" name="topicName">
+            <label for="message">Message:</label>
+            <input type="text" id="message" name="message">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</div>
+</body>
+</html>

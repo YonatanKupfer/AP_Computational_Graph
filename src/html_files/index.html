@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-iframe Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        main {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px;
+        }
+        iframe {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #tableFrame {
+            width: 20%;
+            height: 100%;
+        }
+        #graphFrame {
+            width: 60%;
+            height: 100%;
+        }
+        #formFrame {
+            width: 20%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <!-- Table present node values iframe -->
+    <iframe id="tableFrame" name="tableFrame" src="temp_table.html"></iframe>
+    <!-- Graph iframe -->
+    <iframe id="graphFrame" name="graphFrame" src="temp_graph.html"></iframe>
+    <!-- Form iframe -->
+    <iframe id="formFrame" name="formFrame" src="form.html"></iframe>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
