@@ -24,8 +24,8 @@ This project is a distributed system designed to perform a variety of mathematic
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/yourusername/your-repository-name.git
-    cd your-repository-name
+    git clone https://github.com/YonatanKupfer/AP_Computational_Graph.git
+    cd AP_Computational_Graph
     ```
 
 2. **Open the project in your IDE:**
