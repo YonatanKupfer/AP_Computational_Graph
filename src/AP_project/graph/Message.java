@@ -1,41 +1,57 @@
-//package AP_project.test;
 package AP_project.graph;
 
 import java.util.Date;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The Message class represents a message with multiple representations:
+ * as text, as a double, and as a byte array. It also records the time
+ * the message was created.
+ */
 public class Message {
     public final byte[] data;
     public final String asText;
     public final double asDouble;
     public final Date date;
 
+    /**
+     * Constructs a Message from a text string.
+     * @param asText The message content as text.
+     */
     public Message(String asText) {
-        double asDouble1;
+        double asDoubleValue;
         this.asText = asText;
         this.data = asText.getBytes(StandardCharsets.UTF_8);
-        try{
-            asDouble1 = Double.parseDouble(asText);
-        } catch(NumberFormatException e) {
-            asDouble1 = Double.NaN;
+        try {
+            asDoubleValue = Double.parseDouble(asText);
+        } catch (NumberFormatException e) {
+            asDoubleValue = Double.NaN;
         }
-
-        this.asDouble = asDouble1;
+        this.asDouble = asDoubleValue;
         this.date = new Date();
-
     }
 
+    /**
+     * Constructs a Message from a byte array.
+     * @param data The message content as a byte array.
+     */
     public Message(byte[] data) {
         this(new String(data, StandardCharsets.UTF_8));
     }
 
+    /**
+     * Constructs a Message from a double value.
+     * @param asDouble The message content as a double.
+     */
     public Message(Double asDouble) {
         this(Double.toString(asDouble));
     }
 
-    public Message(int asInt){
+    /**
+     * Constructs a Message from an integer value.
+     * @param asInt The message content as an integer.
+     */
+    public Message(int asInt) {
         this(Integer.toString(asInt));
     }
-
 }
-

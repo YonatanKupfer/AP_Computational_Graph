@@ -14,13 +14,11 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import AP_project.view.HtmlGraphWriter;
-import com.google.gson.Gson;
 
 public class TopicDisplayer implements Servlet {
 
     public static Map<String, String> topicToCurrentMessage = new HashMap<>();
     private String configDescription;
-
 
     @Override
     public void handle(RequestParser.RequestInfo ri, OutputStream toClient) throws IOException {
@@ -64,7 +62,7 @@ public class TopicDisplayer implements Servlet {
         // Update the message in the map
         topicToCurrentMessage.put(topicName, messageContent);
 
-        // Update all topics value
+        // Update all topics' values
         for (Topic topic1 : allTopics) {
             // If it's a source node and not seen this topic yet
             if (topic1.getPublishers().isEmpty() && !topicToCurrentMessage.containsKey(topic1.name)) {
@@ -79,6 +77,7 @@ public class TopicDisplayer implements Servlet {
             configDescription = generateDescriptionFromConfig("src/config_files/uploadedConfig.txt");
         }
 
+        // Create and update the graph
         Graph graph = new Graph();
         graph.createFromTopics();
 
@@ -89,7 +88,6 @@ public class TopicDisplayer implements Servlet {
 
         writeToFile("src/html_files/graph.html", graphHtmlResponse);
         writeToFile("src/html_files/table.html", tableHtmlResponse);
-
 
         // Send the response indicating success
         String successResponse = "HTTP/1.1 200 OK\r\n" +
@@ -109,7 +107,9 @@ public class TopicDisplayer implements Servlet {
         System.out.println("Response sent for /publish request.");
     }
 
-    // Return invalid 404 response
+    /**
+     * Sends an error response indicating an invalid parameter.
+     */
     private void invalidParameterResponse(OutputStream toClient, String topicName) throws IOException {
         String errorResponse = "<html><body><div>Invalid Topic: " + topicName + "</div></body></html>";
         byte[] responseBytes = errorResponse.getBytes();
@@ -125,10 +125,16 @@ public class TopicDisplayer implements Servlet {
         toClient.flush();
     }
 
+    /**
+     * Writes content to a file.
+     */
     private void writeToFile(String path, String content) throws IOException {
         Files.write(Paths.get(path), content.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * Generates a description from the configuration file.
+     */
     private String generateDescriptionFromConfig(String configFilePath) throws IOException {
         StringBuilder description = new StringBuilder();
         String configContent = new String(Files.readAllBytes(Paths.get(configFilePath)), StandardCharsets.UTF_8);
@@ -169,8 +175,6 @@ public class TopicDisplayer implements Servlet {
 
         return description.toString().trim();
     }
-
-
 
     @Override
     public void close() throws IOException {

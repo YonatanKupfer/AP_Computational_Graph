@@ -1,7 +1,16 @@
 Content-Type: application/octet-stream
-AP_project.configs.MultiplyAgent
+AP_project.configs.PlusAgent
 A,B
-E
+X
+AP_project.configs.MultiplyAgent
+X,C
+Y
+AP_project.configs.SquareAgent
+Y
+Z
 AP_project.configs.SquareRootAgent
-E
-F
+Z
+W
+AP_project.configs.MinusAgent
+W,D
+V

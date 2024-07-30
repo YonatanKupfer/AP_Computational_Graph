@@ -8,9 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class HtmlGraphWriter {
+
+    /**
+     * Generates HTML for visualizing the graph using D3.js.
+     * @param graph The graph to be visualized.
+     * @param topicToCurrentMessage Mapping of topics to their current messages.
+     * @return A list of HTML lines.
+     */
     public static List<String> getGraphHtml(Graph graph, Map<String, String> topicToCurrentMessage) {
         List<String> htmlLines = new ArrayList<>();
 
+        // HTML head section
         htmlLines.add("<!DOCTYPE html>");
         htmlLines.add("<html lang=\"en\">");
         htmlLines.add("<head>");
@@ -40,6 +48,7 @@ public class HtmlGraphWriter {
         htmlLines.add("        }");
         htmlLines.add("        text {");
         htmlLines.add("            font: 10px sans-serif;");
+        htmlLines.add("        }");
         htmlLines.add("        .value-text {");
         htmlLines.add("            font-size: 14px;");
         htmlLines.add("            font-weight: bold;");
@@ -47,12 +56,15 @@ public class HtmlGraphWriter {
         htmlLines.add("        }");
         htmlLines.add("    </style>");
         htmlLines.add("</head>");
+
+        // HTML body section
         htmlLines.add("<body>");
         htmlLines.add("    <svg width=\"960\" height=\"600\"></svg>");
         htmlLines.add("    <script>");
         htmlLines.add("        const graphData = {");
         htmlLines.add("            nodes: [");
 
+        // Add nodes to the graph data
         for (Node node : graph) {
             String nodeName = node.getName();
             String displayName = nodeName;
@@ -75,6 +87,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            ],");
         htmlLines.add("            links: [");
 
+        // Add edges to the graph data
         for (Node node : graph) {
             for (Node edge : node.getEdges()) {
                 htmlLines.add("{source: '" + node.getName() + "', target: '" + edge.getName() + "'},");
@@ -87,10 +100,12 @@ public class HtmlGraphWriter {
         htmlLines.add("        const width = 960;");
         htmlLines.add("        const height = 600;");
 
+        // Initialize SVG element
         htmlLines.add("        const svg = d3.select(\"svg\")");
         htmlLines.add("            .attr(\"width\", width)");
         htmlLines.add("            .attr(\"height\", height);");
 
+        // Define marker for arrows
         htmlLines.add("        svg.append(\"defs\").append(\"marker\")");
         htmlLines.add("            .attr(\"id\", \"arrow\")");
         htmlLines.add("            .attr(\"viewBox\", \"0 -5 10 10\")");
@@ -103,12 +118,13 @@ public class HtmlGraphWriter {
         htmlLines.add("            .attr(\"d\", \"M0,-5L10,0L0,5\")");
         htmlLines.add("            .attr(\"fill\", \"#000\");");
 
+        // Initialize force simulation
         htmlLines.add("        const simulation = d3.forceSimulation(graphData.nodes)");
         htmlLines.add("            .force(\"link\", d3.forceLink(graphData.links).id(d => d.id).distance(100))");
         htmlLines.add("            .force(\"charge\", d3.forceManyBody().strength(-100))");
         htmlLines.add("            .force(\"center\", d3.forceCenter(width / 2, height / 2));");
 
-        // Draw links first
+        // Draw links
         htmlLines.add("        const link = svg.append(\"g\")");
         htmlLines.add("            .attr(\"class\", \"links\")");
         htmlLines.add("            .selectAll(\"line\")");
@@ -117,7 +133,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            .attr(\"class\", \"link\")");
         htmlLines.add("            .attr(\"marker-end\", \"url(#arrow)\");");  // Ensure marker-end is correctly set
 
-        // Draw nodes on top
+        // Draw nodes
         htmlLines.add("        const node = svg.append(\"g\")");
         htmlLines.add("            .attr(\"class\", \"nodes\")");
         htmlLines.add("            .selectAll(\"g\")");
@@ -128,11 +144,13 @@ public class HtmlGraphWriter {
         htmlLines.add("                .on(\"drag\", dragged)");
         htmlLines.add("                .on(\"end\", dragended));");
 
+        // Draw circles for agent nodes
         htmlLines.add("        node.filter(function(d) { return d.type === \"agent\"; })");
         htmlLines.add("            .append(\"circle\")");
         htmlLines.add("            .attr(\"r\", 30)");  // Adjust this value to make circles bigger
         htmlLines.add("            .attr(\"fill\", \"#87CEFA\");");
 
+        // Draw rectangles for topic nodes
         htmlLines.add("        node.filter(function(d) { return d.type === \"topic\"; })");
         htmlLines.add("            .append(\"rect\")");
         htmlLines.add("            .attr(\"width\", 80)");
@@ -141,7 +159,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            .attr(\"y\", -20)");
         htmlLines.add("            .attr(\"fill\", \"#98FB98\");");
 
-        // Add value text above topics
+        // Add value text above topic nodes
         htmlLines.add("        node.filter(function(d) { return d.type === \"topic\"; })");
         htmlLines.add("            .append(\"text\")");
         htmlLines.add("            .attr(\"class\", \"value-text\")");
@@ -153,12 +171,14 @@ public class HtmlGraphWriter {
         htmlLines.add("            .style(\"font-weight\", \"bold\")");  // Ensure font weight is set
         htmlLines.add("            .text(function(d) { return d.value.toFixed(1); });");  // Initialize value to node's message value
 
+        // Add display name to nodes
         htmlLines.add("        node.append(\"text\")");
         htmlLines.add("            .attr(\"dy\", 3)");
         htmlLines.add("            .attr(\"x\", 0)");
         htmlLines.add("            .style(\"text-anchor\", \"middle\")");
         htmlLines.add("            .text(function(d) { return d.displayName; });");
 
+        // Update simulation positions on tick
         htmlLines.add("        simulation.on(\"tick\", function() {");
         htmlLines.add("            link.attr(\"x1\", function(d) { return d.source.x; })");
         htmlLines.add("                .attr(\"y1\", function(d) { return d.source.y; })");
@@ -168,6 +188,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            node.attr(\"transform\", function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });");
         htmlLines.add("        });");
 
+        // Drag event handlers
         htmlLines.add("        function dragstarted(event, d) {");
         htmlLines.add("            if (!event.active) simulation.alphaTarget(0.3).restart();");
         htmlLines.add("            d.fx = d.x;");
@@ -185,6 +206,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            d.fy = null;");
         htmlLines.add("        }");
 
+        // Update node values on receiving messages
         htmlLines.add("        window.addEventListener('message', function(event) {");
         htmlLines.add("            if (event.data.type === 'updateNodes') {");
         htmlLines.add("                const updatedNodes = Object.entries(event.data.data).map(([id, value]) => ({");
@@ -207,10 +229,17 @@ public class HtmlGraphWriter {
         return htmlLines;
     }
 
-    // Add the getTableHtml method if not already present
+    /**
+     * Generates an HTML table displaying the values of nodes in the graph.
+     * @param graph The graph containing the nodes.
+     * @param topicToCurrentMessage Mapping of topics to their current messages.
+     * @param description Description of the configuration.
+     * @return A list of HTML lines for the table.
+     */
     public static List<String> getTableHtml(Graph graph, Map<String, String> topicToCurrentMessage, String description) {
         List<String> htmlLines = new ArrayList<>();
 
+        // HTML head section
         htmlLines.add("<!DOCTYPE html>");
         htmlLines.add("<html lang=\"en\">");
         htmlLines.add("<head>");
@@ -253,6 +282,8 @@ public class HtmlGraphWriter {
         htmlLines.add("        }");
         htmlLines.add("    </style>");
         htmlLines.add("</head>");
+
+        // HTML body section
         htmlLines.add("<body>");
         htmlLines.add("    <h1>Node Values</h1>");
         htmlLines.add("    <table>");
@@ -261,6 +292,7 @@ public class HtmlGraphWriter {
         htmlLines.add("            <th>Value</th>");
         htmlLines.add("        </tr>");
 
+        // Add rows to the table for each topic node
         for (Node node : graph) {
             if (node.getName().startsWith("T")) {
                 String nodeName = node.getName().substring(1); // Remove 'T' prefix

@@ -22,6 +22,9 @@ public class ConfLoader implements Servlet {
         clearStateAndWriteEmptyHtmlFiles();
     }
 
+    /**
+     * Clears previous state and writes empty HTML files for the graph and table.
+     */
     private void clearStateAndWriteEmptyHtmlFiles() {
         // Clear previous state
         TopicManagerSingleton.get().clear();
@@ -40,13 +43,17 @@ public class ConfLoader implements Servlet {
         }
     }
 
+    /**
+     * Generates an empty graph HTML structure.
+     */
     private String generateEmptyGraphHtml() {
-        // Generate an empty graph HTML structure
         return "<html><head><title>Graph Visualization</title></head><body><svg width=\"960\" height=\"600\"></svg></body></html>";
     }
 
+    /**
+     * Generates an empty table HTML structure.
+     */
     private String generateEmptyTableHtml() {
-        // Generate an empty table HTML structure
         return "<html><head><title>Node Values</title></head><body><h1>Node Values</h1><table><thead><tr><th>Node</th><th>Value</th></tr></thead><tbody></tbody></table></body></html>";
     }
 
@@ -103,10 +110,12 @@ public class ConfLoader implements Servlet {
         loadedTopics.clear();
         TopicDisplayer.topicToCurrentMessage.clear();
 
+        // Create and load configuration
         GenericConfig config = new GenericConfig();
         config.setConfFile(fileName);
         config.create();
 
+        // Create graph from topics
         Graph graph = new Graph();
         graph.createFromTopics();
 
@@ -123,7 +132,7 @@ public class ConfLoader implements Servlet {
             }
         }
 
-        // Pass the topicToCurrentMessage map to HtmlGraphWriter
+        // Generate HTML content for graph and table
         List<String> graphHtmlLines = HtmlGraphWriter.getGraphHtml(graph, TopicDisplayer.topicToCurrentMessage);
         List<String> tableHtmlLines = HtmlGraphWriter.getTableHtml(graph, TopicDisplayer.topicToCurrentMessage, description);
 
@@ -137,6 +146,9 @@ public class ConfLoader implements Servlet {
         sendSuccessResponse(toClient, "Configuration and graph successfully loaded.");
     }
 
+    /**
+     * Sends an error response to the client.
+     */
     private void sendErrorResponse(OutputStream toClient, String message) throws IOException {
         String response = "HTTP/1.1 400 Bad Request\r\n" +
                 "Content-Type: text/html\r\n\r\n" +
@@ -146,6 +158,9 @@ public class ConfLoader implements Servlet {
         toClient.close();
     }
 
+    /**
+     * Sends a success response to the client.
+     */
     private void sendSuccessResponse(OutputStream toClient, String message) throws IOException {
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Type: text/html\r\n\r\n" +
@@ -160,6 +175,9 @@ public class ConfLoader implements Servlet {
         toClient.close();
     }
 
+    /**
+     * Generates a description of the configuration from the content.
+     */
     private String generateDescription(String configContent) {
         StringBuilder description = new StringBuilder();
         String[] lines = configContent.split("\n");
@@ -200,9 +218,9 @@ public class ConfLoader implements Servlet {
         return description.toString().trim();
     }
 
-
-
-
+    /**
+     * Writes content to a file.
+     */
     private void writeToFile(String path, String content) throws IOException {
         Files.write(Paths.get(path), content.getBytes(StandardCharsets.UTF_8));
     }

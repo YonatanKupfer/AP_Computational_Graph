@@ -65,17 +65,19 @@ public class MyHTTPServer extends Thread implements HTTPServer {
         System.out.println("Handling client connection...");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              OutputStream outputStream = clientSocket.getOutputStream()) {
+
+            // Parse the request
             RequestParser.RequestInfo requestInfo = RequestParser.parseRequest(reader);
             System.out.println("Handling request: " + requestInfo.getHttpCommand() + " " + requestInfo.getUri());
+
+            // Find the appropriate servlet
             Servlet servlet = findServlet(requestInfo);
             if (servlet != null) {
                 System.out.println("Found servlet for request: " + requestInfo.getHttpCommand() + " " + requestInfo.getUri());
                 servlet.handle(requestInfo, outputStream);
                 System.out.println("Request handled successfully.");
             } else {
-                String response = "HTTP/1.1 404 Not Found\n\n";
-                outputStream.write(response.getBytes());
-                outputStream.flush();
+                sendNotFoundResponse(outputStream);
                 System.out.println("Servlet not found for request: " + requestInfo.getHttpCommand() + " " + requestInfo.getUri());
             }
         } catch (IOException e) {
@@ -83,6 +85,11 @@ public class MyHTTPServer extends Thread implements HTTPServer {
         }
     }
 
+    /**
+     * Searches for a servlet that matches the request's HTTP command and URI.
+     * @param requestInfo The request information.
+     * @return The matching servlet, or null if no match is found.
+     */
     private Servlet findServlet(RequestParser.RequestInfo requestInfo) {
         System.out.println("Searching for servlet for command: " + requestInfo.getHttpCommand() + " and URI: " + requestInfo.getUri());
         Map<String, Servlet> commandMap = servlets.get(requestInfo.getHttpCommand());
@@ -98,6 +105,19 @@ public class MyHTTPServer extends Thread implements HTTPServer {
         }
         System.out.println("No servlet found for URI: " + requestInfo.getUri());
         return null;
+    }
+
+    /**
+     * Sends a 404 Not Found response to the client.
+     * @param outputStream The OutputStream to write the response to.
+     * @throws IOException If an I/O error occurs.
+     */
+    private void sendNotFoundResponse(OutputStream outputStream) throws IOException {
+        String response = "HTTP/1.1 404 Not Found\r\n" +
+                "Content-Type: text/html\r\n\r\n" +
+                "<html><body><h1>404 Not Found</h1></body></html>";
+        outputStream.write(response.getBytes());
+        outputStream.flush();
     }
 
     @Override
