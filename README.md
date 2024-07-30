@@ -37,7 +37,7 @@ This project is a distributed system designed to perform a variety of mathematic
     - Right-click the `Main` class and select `Run` or use the IDE's run configuration to start the application.
 
 4. **Open the frontend:**
-    - Open `index.html` in your web browser to interact with the system.
+    - Open `http://localhost:8080/app/index.html` in your web browser to interact with the system.
 
 ## Usage
 
