@@ -52,6 +52,10 @@ This project is a distributed system designed to perform a variety of mathematic
 3. **View Results:**
     - The table and graph frames will display the processed results and visualizations.
 
+## Demo Video
+
+Watch the [demo video](https://youtu.be/5aU0AVYUpR0) to see the system in action.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
