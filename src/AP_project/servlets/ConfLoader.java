@@ -133,6 +133,12 @@ public class ConfLoader implements Servlet {
         Graph graph = new Graph();
         graph.createFromTopics();
 
+        // Check for cycles
+        if (graph.hasCycles()) {
+            sendErrorResponse(toClient, "Cycle detected in the configuration. Please correct the configuration and try again.");
+            return;
+        }
+
         String description = generateDescription(fileContent.toString());
 
         System.out.println("Graph nodes and edges:");
@@ -203,6 +209,7 @@ public class ConfLoader implements Servlet {
         operationMap.put("AP_project.configs.SquareRootAgent", "√");
         operationMap.put("AP_project.configs.MinusAgent", "−");
         operationMap.put("AP_project.configs.DivideAgent", "÷");
+        operationMap.put("AP_project.configs.IncAgent", "+1");
 
         List<String> operations = new ArrayList<>();
         for (int i = 0; i < lines.length; i++) {
@@ -216,6 +223,8 @@ public class ConfLoader implements Servlet {
                         operations.add(inputs + " " + operation + " = " + output);
                     } else if (operation.equals("√")) {
                         operations.add(operation + inputs + " = " + output);
+                    } else if (operation.equals("+1")) {
+                        operations.add(inputs + " " + operation + " = " + output);
                     } else {
                         String[] inputArray = inputs.split(",");
                         operations.add(inputArray[0] + " " + operation + " " + inputArray[1] + " = " + output);
@@ -231,6 +240,7 @@ public class ConfLoader implements Servlet {
 
         return description.toString().trim();
     }
+
 
     /**
      * Writes content to a file.

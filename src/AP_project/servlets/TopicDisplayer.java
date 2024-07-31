@@ -78,9 +78,9 @@ public class TopicDisplayer implements Servlet {
         }
 
         // Generate the description if not already set
-        if (configDescription == null) {
-            configDescription = generateDescriptionFromConfig("src/config_files/uploadedConfig.txt");
-        }
+
+        configDescription = generateDescriptionFromConfig("src/config_files/uploadedConfig.txt");
+
 
         // Create and update the graph
         Graph graph = new Graph();
@@ -152,6 +152,7 @@ public class TopicDisplayer implements Servlet {
         operationMap.put("AP_project.configs.SquareRootAgent", "√");
         operationMap.put("AP_project.configs.MinusAgent", "−");
         operationMap.put("AP_project.configs.DivideAgent", "÷");
+        operationMap.put("AP_project.configs.IncAgent", "+1");
 
         List<String> operations = new ArrayList<>();
         for (int i = 0; i < lines.length; i++) {
@@ -165,6 +166,8 @@ public class TopicDisplayer implements Servlet {
                         operations.add(inputs + " " + operation + " = " + output);
                     } else if (operation.equals("√")) {
                         operations.add(operation + inputs + " = " + output);
+                    } else if (operation.equals("+1")) {
+                        operations.add(inputs + " " + operation + " = " + output);
                     } else {
                         String[] inputArray = inputs.split(",");
                         operations.add(inputArray[0] + " " + operation + " " + inputArray[1] + " = " + output);
@@ -180,6 +183,7 @@ public class TopicDisplayer implements Servlet {
 
         return description.toString().trim();
     }
+
 
     @Override
     public void close() throws IOException {
